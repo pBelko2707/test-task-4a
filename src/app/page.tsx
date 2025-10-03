@@ -67,7 +67,7 @@ export default function Home() {
                 className={'max-[870px]:h-[250px] max-[870px]:w-[124px]'}
               />
               <div
-                className="absolute bottom-[45px] w-[362px] h-[80px] bg-gradient-to-b from-[rgba(35,40,41,0)] to-[rgba(35,40,41,1)]
+                className="absolute bottom-[45px] w-[362px] h-[80px] bg-gradient-to-b from-[rgba(35,40,41,0)] to-[rgba(35,40,41,1)] max-[1100px]:bottom-[0]
               max-[870px]:w-[117px] max-[870px]:h-[26px] max-[870px]:bottom-[0]"
               />
             </div>
