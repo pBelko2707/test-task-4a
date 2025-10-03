@@ -1,17 +1,34 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
-
-First, run the development server:
-
 ```bash
+Проект на Next.js
+Установка и запуск
+Все команды выполняются из корневой директории проекта
+
+С использованием npm:
+# Установка зависимостей
+npm install
+
+# Сборка проекта (опционально)
+npm run build
+
+# Запуск в режиме разработки
 npm run dev
-# or
+
+
+С использованием yarn:
+# Установка зависимостей
+yarn install
+
+# Сборка проекта (опционально)
+yarn build
+
+# Запуск в режиме разработки
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+После запуска
+Приложение будет доступно по адресу: http://localhost:3000
+
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

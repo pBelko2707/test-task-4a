@@ -1,26 +1,91 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  html {
+    box-sizing: border-box;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    box-sizing: border-box;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+html {
+  margin: 0;
+  padding: 0;
 }
+
+body {
+  background: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  background: #232829;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 150px;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 110%;
+  color: #FFFFFF;
+  margin: 50px 0 110px 0;
+}
+
+a {
+  color: #CDCDCD;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FDB056 ;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 130%;
+  color: #191E1F;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+@keyframes blink-neon {
+  0%, 100% {
+    background-color: #FDB056;
+    box-shadow:
+            0 0 5px #FDB056,
+            0 0 10px #FDB056;
+  }
+  50% {
+    background-color: #FD9056;
+    box-shadow:
+            0 0 15px #FDB056,
+            0 0 25px #FDB056,
+            0 0 35px #FDB056;
+    transform: scale(1.02);
+  }
+}
+
+.animate-blink-neon {
+  animation: blink-neon 1.5s ease-in-out infinite;
+}
+
+
+

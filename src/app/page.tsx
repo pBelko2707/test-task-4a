@@ -1,103 +1,98 @@
-import Image from "next/image";
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Header from '@/components/Header';
+import { Tariff } from '@/types/tariff';
+import Image from 'next/image';
+import TariffsList from '@/components/TariffsList';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [tariffs, setTariffs] = useState<Tariff[]>([]);
+  const [selectedTariff, setSelectedTariff] = useState<string | null>(null);
+  const [timerFinished, setTimerFinished] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  useEffect(() => {
+    const fetchTariffs = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('/api/tariffs');
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch tariffs');
+        }
+
+        const data = await response.json();
+        setTariffs(data);
+      } catch (error) {
+        console.error('Ошибка загрузки тарифов:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTariffs();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-lg">Loading...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="">
+      <Header onTimerFinish={() => setTimerFinished(true)} />
+      <main className="max-[870px]:pb-[30px]">
+        <div className="flex flex-col max-w-[1216px] w-[100%] max-[1300px]:p-[0_16px]">
+          <h1
+            className={
+              'max-[870px]:m-[20px_0] max-[870px]:text-[24px] max-[370px]:text-[22px]'
+            }
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            Выбери подходящий для себя{' '}
+            <span className="text-[#FDB056]">тариф</span>
+          </h1>
+          {/* Основной контент */}
+          <div className="flex justify-between max-[870px]:flex-col max-[870px]:items-center">
+            <div className="relative mt-[52px] max-[870px]:mt-[0]">
+              <Image
+                src="/images/muscleman.png"
+                alt="muscleman"
+                priority={true}
+                width={380}
+                height={767}
+                className={'max-[870px]:h-[250px] max-[870px]:w-[124px]'}
+              />
+              <div
+                className="absolute bottom-[45px] w-[362px] h-[80px] bg-gradient-to-b from-[rgba(35,40,41,0)] to-[rgba(35,40,41,1)]
+              max-[870px]:w-[117px] max-[870px]:h-[26px] max-[870px]:bottom-[0]"
+              />
+            </div>
+            <div>
+              <TariffsList
+                tariffs={tariffs}
+                selectedTariff={selectedTariff}
+                onTariffSelect={setSelectedTariff}
+                timerFinished={timerFinished}
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-[30px] rounded-[30px] border-1 border-[#484D4E] p-[20px] mt-[66px] max-[870px]:mt-[24px] max-[870px]:p-[12px] max-[870px]:gap-[10px] max-[370px]:mt-[22px] max-[370px]:p-[12px_9px_12px_10px]">
+            <div className="w-fit rounded-[30px] border-1 border-[#81FE95] p-[16px_30px_18px] font-[500] text-[28px] leading-[120%] text-[#81FE95] max-[870px]:text-[18px] max-[870px]:p-[10px_18px_12px] max-[370px]:text-[16px]">
+              гарантия возврата 30 дней
+            </div>
+            <div className="font-[400] text-[24px] leading-[130%] text-[#DCDCDC] max-[870px]:text-[14px] max-[370px]:text-[13px]">
+              Мы уверены, что наш план сработает для тебя и ты увидишь видимые
+              результаты уже через 4 недели! Мы даже готовы полностью вернуть
+              твои деньги в течение 30 дней с момента покупки, если ты не
+              получишь видимых результатов.
+            </div>
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
